@@ -18,9 +18,15 @@ resource "aws_internet_gateway" "mongo_igw" {
 }
 
 # Nat Gateway
+
+# Declare the aws_eip resource
+resource "aws_eip" "nat_eip" {
+  instance = aws_instance.example.id
+}
+
 resource "aws_nat_gateway" "mongo-nat-gw" {
   allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.mongo-public-subnet-1.id
+  subnet_id     = aws_subnet.mongo-public-subnet-2.id
   tags = {
     Name = "mongo-nat-gw"
   }

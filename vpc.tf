@@ -99,32 +99,6 @@ resource "aws_route_table_association" "mongo_public_assoc" {
   route_table_id = aws_route_table.mongo_public_rt.id
 }
 
-# Create security group for MongoDB
-resource "aws_security_group" "mongo_sg" {
-  name        = "mongo-sg"
-  description = "Allow MongoDB traffic"
-  vpc_id      = aws_vpc.mongo_vpc.id
-
-  ingress {
-    description = "Allow MongoDB traffic"
-    from_port   = 27017
-    to_port     = 27017 
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] 
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "mongo-sg"
-  }
-}
-
 # Create MongoDB replica set 
 resource "aws_instance" "mongo" {
   count         = 3 # create 3 instances
